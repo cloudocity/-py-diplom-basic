@@ -4,15 +4,19 @@ import vk
 import os.path
 import json
 import yandex
+from tqdm import tqdm
+
 
 vk_token = ''
-token_yandex = ''
 folder = 'photos/'
+id_user = input('Введите id пользователя VK:')
+token_yandex = input('Введите токен с Полигона Яндекс.Диска:')
+count_photos = int(input('Введите введите количество скачиваемых фотографий:'))
 
 
 def save_photo(directory, photos_profile, count=5):
     numb = 0
-    for photo in photos_profile:
+    for photo in tqdm(photos_profile, desc='Скачивание фотографий на диск', colour='green', total=count, ncols=150):
         if numb < count:
             sizes = photo['sizes']
             big_size = photos.big_size(sizes)
@@ -56,6 +60,6 @@ def save_photo(directory, photos_profile, count=5):
 
 if __name__ == '__main__':
     photos = vk.vkGet(vk_token, '5.131')
-    photos_prof = photos.photos_get(3415629)
-    save_photo(folder, photos_prof)
+    photos_prof = photos.photos_get(id_user)
+    save_photo(folder, photos_prof,  count_photos)
     yandex.upload_dir_files(folder, token_yandex)

@@ -2,6 +2,7 @@ import requests
 import os
 from os import listdir
 from os.path import isfile, join
+from tqdm import tqdm
 
 
 class YaUploader:
@@ -25,14 +26,12 @@ class YaUploader:
         href = self.get_upload_link(disk_file_path=disk_file_path).get('href', '')
         response = requests.put(href, data=open(file_path, 'rb'))
         response.raise_for_status()
-        if response.status_code == 201:
-            print("Success")
         return
 
 
 def upload_dir_files(dir_to_file, token):
     only_files = [f for f in listdir(dir_to_file) if isfile(join(dir_to_file, f))]
-    for files in only_files:
+    for files in tqdm(only_files, desc='Загрузка фотографий и json файлов на Яндекс.Диск', colour='green', ncols=150):
         path_to_file = 'photos/' + files
         filename = os.path.basename(path_to_file)
         uploader = YaUploader(token)

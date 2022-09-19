@@ -10,6 +10,15 @@ class vkGet:
             'v': version
         }
 
+    def get_users(self, user_imfo):
+        get_users = self.url + 'users.get'
+        get_users_params = {
+            'user_ids': user_imfo,
+        }
+        req = requests.get(get_users, params={**self.params, **get_users_params}).json()
+        print(req)
+        return req['response'][0]['id']
+
     def photos_get(self, owner_id, album_id='profile'):
         get_photos_url = self.url + 'photos.get'
         get_photos_params =  {
@@ -19,11 +28,12 @@ class vkGet:
             'extended': 1
         }
         req = requests.get(get_photos_url, params={**self.params, **get_photos_params}).json()
-        return req['response']['items']
+        print(req)
+        return req['response']
 
     def big_size(self, sizes):
         dict_size = {
-            's': 1, 'm': 2,'x': 3, 'o':4, 'p': 5, 'q': 6, 'r':7, 'y': 8, 'z':9, 'w': 10
+            's': 1, 'm': 2, 'x': 3, 'o': 4, 'p': 5, 'q': 6, 'r': 7, 'y': 8, 'z': 9, 'w': 10
                      }
         url_size ={}
         big_size = 0

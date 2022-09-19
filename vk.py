@@ -16,19 +16,17 @@ class vkGet:
             'user_ids': user_imfo,
         }
         req = requests.get(get_users, params={**self.params, **get_users_params}).json()
-        print(req)
         return req['response'][0]['id']
 
     def photos_get(self, owner_id, album_id='profile'):
         get_photos_url = self.url + 'photos.get'
-        get_photos_params =  {
+        get_photos_params = {
             'owner_id': owner_id,
             'album_id': album_id,
             'rev': 0,
             'extended': 1
         }
         req = requests.get(get_photos_url, params={**self.params, **get_photos_params}).json()
-        print(req)
         return req['response']
 
     def big_size(self, sizes):
